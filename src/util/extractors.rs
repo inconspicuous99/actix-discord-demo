@@ -3,8 +3,9 @@ use crate::util::auth::{decode_jwt, PrivateClaim};
 
 use actix_identity::RequestIdentity;
 use actix_web::{
+    HttpRequest,
+    HttpResponse,
     dev::Payload,
-    web::{HttpRequest, HttpResponse},
     Error, FromRequest,
 };
 use futures::future::{err, ok, Ready};
