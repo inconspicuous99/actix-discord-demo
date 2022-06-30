@@ -15,7 +15,6 @@ use futures::future::{err, ok, Ready};
 /// Simply add "user: AuthUser" to a handler to invoke this.
 impl FromRequest for AuthUser {
     type Error = Error;
-    type Config = ();
     type Future = Ready<Result<Self, Self::Error>>;
 
     fn from_request(req: &HttpRequest, _payload: &mut Payload) -> Self::Future {

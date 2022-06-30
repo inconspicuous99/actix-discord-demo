@@ -17,13 +17,12 @@ use std::task::{Context, Poll};
 
 pub struct Auth;
 
-impl<S, B> Transform<S> for Auth
+impl<S: Service<Req, Response = ServiceResponse, Error=Error>, Req> Transform<S, Req> for Auth
 where
-    S: Service<Request = ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     S::Future: 'static,
 {
-    type Request = ServiceRequest;
-    type Response = ServiceResponse<B>;
+    // type Request = ServiceRequest;
+    type Response = S::Response;//ServiceResponse<B>;
     type Error = Error;
     type InitError = ();
     type Transform = AuthMiddleware<S>;
@@ -37,13 +36,11 @@ pub struct AuthMiddleware<S> {
     service: S,
 }
 
-impl<S, B> Service for AuthMiddleware<S>
+impl<S: Service<Req, Response = ServiceResponse, Error=Error>, Req> Service<Req> for AuthMiddleware<S>
 where
-    S: Service<Request = ServiceRequest, Response = ServiceResponse<B>, Error = Error>,
     S::Future: 'static,
 {
-    type Request = ServiceRequest;
-    type Response = ServiceResponse<B>;
+    type Response = S::Response;
     type Error = Error;
     type Future = Pin<Box<dyn Future<Output = Result<Self::Response, Self::Error>>>>;
 
