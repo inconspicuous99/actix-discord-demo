@@ -29,3 +29,5 @@ serde_derive = "1.0"
 serde_json = "1.0"
 tokio = { version = "1.19.2", features = ["full"] }
 url = "2"
+
+actix-web-actors = "~4.1.0"
